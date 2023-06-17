@@ -19,6 +19,7 @@ public class Pessoa {
 
     private String nome;
 
+    @Column(nullable = false, unique = true)
     private String email;
 
     @ManyToOne
@@ -54,6 +55,14 @@ public class Pessoa {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Cidade getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(Cidade cidade) {
+        this.cidade = cidade;
     }
 
     @Override
