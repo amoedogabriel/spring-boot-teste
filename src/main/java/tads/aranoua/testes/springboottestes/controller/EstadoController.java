@@ -33,6 +33,43 @@ public class EstadoController {
     }
 
 
+    @ResponseBody
+    @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public Estado find(@PathVariable("id") Long id){
+
+        return estadoRepository.findById(id).get();
+
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/ibge/{ibge}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public Estado findByIBGE(@PathVariable("ibge") String ibge){
+
+        return estadoRepository.findOneByIbge(ibge);
+
+    }
+
+
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Estado> create(@RequestBody Estado estado, UriComponentsBuilder uriComponentsBuilder){
+
+       Estado estadoRetorno = estadoRepository.save(estado);
+
+//       status de retorno: 201 (ok)
+//        path: uri da entidade
+//        body: conteúdo do objeto em json
+
+        URI uri = uriComponentsBuilder.path("/api/estados/{id}")
+                                       .buildAndExpand(estadoRetorno.getId()).toUri();
+
+       return ResponseEntity.created(uri).body(estadoRetorno);
+
+    }
+
+
+
+
 
 
 }

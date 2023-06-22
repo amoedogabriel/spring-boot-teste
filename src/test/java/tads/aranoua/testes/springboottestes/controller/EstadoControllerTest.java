@@ -1,6 +1,7 @@
 package tads.aranoua.testes.springboottestes.controller;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,30 @@ public class EstadoControllerTest {
         ResultMatcher conteudoEsperado = MockMvcResultMatchers.content().json(jsonRetorno);
 
         mvc.perform(request).andExpect(statusEsperado).andExpect(conteudoEsperado);
+
+
+    }
+
+
+    @Test
+    public void deveCadastrarEstadoComValoresCorretos() throws Exception {
+
+        URI uri = new URI("/api/estados");
+
+        String jsonEntrada = "{\"ibge\":\"42\",\"nome\":\"SANTA CATARINA\"}";
+
+        RequestBuilder request = MockMvcRequestBuilders.post(uri)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonEntrada);
+
+        ResultMatcher statusEsperado = MockMvcResultMatchers.status().is(201);
+
+        String jsonRetorno = "{\"id\":3,\"ibge\":\"42\",\"nome\":\"SANTA CATARINA\"}";
+        ResultMatcher conteudoEsperado = MockMvcResultMatchers.content().json(jsonRetorno);
+
+
+        mvc.perform(request).andExpect(statusEsperado).andExpect(conteudoEsperado);
+
 
 
     }
